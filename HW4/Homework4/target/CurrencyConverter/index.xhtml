@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Currency Converter</title>
+    </h:head>
+    <h:body>
+        <h1>Currency Converter</h1>
+
+        <h3>Please select the currency you want to convert from, then the currency you want to convert to, and finally the amount</h3>
+        <h:form>
+            <p>
+                <h:selectOneMenu id="fromCurrency" value="#{conversionManager.currentFromCurrency}" required="true">
+                    <f:selectItem itemLabel="Please select the currency you want to convert from: " itemValue="#{null}" />
+                    <f:selectItems value="#{conversionManager.listFromCurrencyValue}" />
+                    <f:ajax listener="#{conversionManager.changeListOfToCurrenciesValues}" render="toCurrency" />
+                </h:selectOneMenu>
+            </p>
+
+            <p>
+                <h:selectOneMenu id="toCurrency" value="#{conversionManager.currentToCurrency}" required="true">
+                    <f:selectItem itemLabel="Please select the currency you want to convert to: " itemValue="#{null}" />
+                    <f:selectItems value="#{conversionManager.listToCurrencyValue}" />
+                    <f:ajax render="currentCurrencyAmount"/>
+                </h:selectOneMenu>
+            </p>
+
+            <p>
+                <h:outputLabel  for="currentCurrencyAmount" value="Amount to Convert: "/>
+                <h:inputText id="currentCurrencyAmount" value="#{conversionManager.currentCurrencyAmount}" converterMessage="Please enter digits only." />
+            </p>
+
+            <p>
+                <h:commandButton value="Convert Currency" action="#{conversionManager.convert}"/>
+            </p>
+
+            <hr/>
+
+            <h3>Results:</h3>
+            <h:outputLabel style="font-size: large" value="#{conversionManager.producedConversion}"/>
+            <h:outputLabel style="font-size: xx-large" value="#{conversionManager.producedConversionNumber}"/>
+        </h:form>
+    </h:body>
+</html>
+
